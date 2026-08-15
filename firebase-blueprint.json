@@ -1,0 +1,112 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with casino balance, VIP tier and stats",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "photoURL": { "type": "string", "maxLength": 1024 },
+        "balance": { "type": "number" },
+        "currency": { "type": "string", "enum": ["USD", "PEN", "EUR"] },
+        "vipLevel": { "type": "string", "enum": ["Bronce", "Plata", "Oro", "Platino", "Diamante"] },
+        "vipPoints": { "type": "number" },
+        "totalSpins": { "type": "number" },
+        "totalWon": { "type": "number" },
+        "biggestWin": { "type": "number" },
+        "isVip": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "displayName", "balance", "vipLevel", "vipPoints", "totalSpins", "totalWon", "biggestWin", "isVip"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Financial deposit or withdrawal transaction record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "enum": ["deposit", "withdraw", "bonus"] },
+        "amount": { "type": "number" },
+        "currency": { "type": "string", "enum": ["USD", "PEN", "EUR"] },
+        "method": { "type": "string", "maxLength": 128 },
+        "status": { "type": "string", "enum": ["Completado", "Procesando", "Cancelado"] },
+        "referenceId": { "type": "string", "maxLength": 128 },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "type", "amount", "currency", "method", "status", "referenceId"]
+    },
+    "SpinRecord": {
+      "title": "SpinRecord",
+      "description": "Audited slot machine spin outcome",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "gameId": { "type": "string", "maxLength": 64 },
+        "gameName": { "type": "string", "maxLength": 128 },
+        "betAmount": { "type": "number" },
+        "winAmount": { "type": "number" },
+        "multiplier": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "gameId", "gameName", "betAmount", "winAmount", "multiplier"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Public chat message or automated big win announcement",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "sender": { "type": "string", "maxLength": 128 },
+        "avatar": { "type": "string", "maxLength": 16 },
+        "text": { "type": "string", "maxLength": 500 },
+        "isSystem": { "type": "boolean" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "sender", "avatar", "text"]
+    },
+    "LeaderboardEntry": {
+      "title": "LeaderboardEntry",
+      "description": "Global VIP Player high score ranking",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "avatar": { "type": "string", "maxLength": 16 },
+        "vipLevel": { "type": "string", "enum": ["Bronce", "Plata", "Oro", "Platino", "Diamante"] },
+        "score": { "type": "number" },
+        "biggestWin": { "type": "number" },
+        "tournamentPoints": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "displayName", "avatar", "vipLevel", "score", "biggestWin", "tournamentPoints"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Private user account, persistent balance and VIP profile"
+    },
+    "/users/{userId}/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "User transaction history for deposits and withdrawals"
+    },
+    "/users/{userId}/spins/{spinId}": {
+      "schema": "SpinRecord",
+      "description": "Audited spin history per user"
+    },
+    "/chat_messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Global live player chat and jackpot broadcast feed"
+    },
+    "/leaderboard/{userId}": {
+      "schema": "LeaderboardEntry",
+      "description": "Public tournament and weekly VIP leaderboard standings"
+    }
+  }
+}

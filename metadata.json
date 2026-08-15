@@ -1,0 +1,6 @@
+{
+  "name": "Gran Fortuna",
+  "description": "Plataforma oficial y certificada de casino en vivo y tragamonedas premium con salas de alta volatilidad (El Sol del Inca Imperial, Cleopatra: Oro del Nilo, Furia del Olimpo: Zeus, Selva Amazónica Salvaje, Tesoros de Cajamarca VIP, El Dorado: Ciudad de Oro y Frutas Diamante Deluxe), RNG SHA-256 Provably Fair auditado, botes progresivos certificados y soporte multimoneda.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
